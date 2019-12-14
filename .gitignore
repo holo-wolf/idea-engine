@@ -1,0 +1,15 @@
+# Gradle files; we shouldn't let these be pushed out to GitHub because they aren't really necessary per se.
+build/
+.gradle/
+!gradle-wrapper.jar
+
+# Java .class files; pretty much the same reason as above.
+out/
+*.class
+*.log
+
+# IntelliJ IDEA files; also pretty much as the same reason above the one above this one (or something like that).
+.idea/
+*.iml
+*.ipr
+*.iws
