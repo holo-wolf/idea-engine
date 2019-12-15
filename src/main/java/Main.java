@@ -12,10 +12,16 @@
  * If not, see <https://www.gnu.org/licenses/>.
  * ****************************************************************************************************************** */
 import ideaengine.database.DBMS;
+import ideaengine.discord.Bot;
+
+import javax.security.auth.login.LoginException;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws LoginException {
         // Establish a connection to the Idea Network.
         final DBMS database = new DBMS();
+
+        // Establish a connection to Discord.
+        final Bot bot = new Bot();
     }
 }
