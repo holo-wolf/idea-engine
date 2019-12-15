@@ -13,7 +13,11 @@
  * ****************************************************************************************************************** */
 package ideaengine.database;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * The PostgreSQL abstract class implements the DatabaseADT interface. This class loosely provides a working skeleton
