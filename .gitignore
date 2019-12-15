@@ -13,3 +13,6 @@ out/
 *.iml
 *.ipr
 *.iws
+
+# SQL files; not everything is open-source.
+*.sql
