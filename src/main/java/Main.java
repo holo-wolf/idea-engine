@@ -24,7 +24,7 @@ public class Main {
         final Logger log = new Logger(true);
 
         // Establish a connection to the Idea Network.
-        final DBMS database = new DBMS();
+        final DBMS database = new DBMS(true);
 
         // Establish a connection to Discord.
         final Bot bot = new Bot();
