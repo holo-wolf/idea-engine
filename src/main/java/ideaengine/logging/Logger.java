@@ -38,8 +38,10 @@ import java.util.Locale;
  *     <dt><span class="strong">void databaseConnected()</span></dt><dd>Logs database's successful connection.</dd>
  *     <dt><span class="strong">void databaseDisconnect()</span></dt><dd>Logs database's first disconnection.</dd>
  *     <dt><span class="strong">void databaseUserAdded()</span></dt><dd>Logs when a user is added to the database.</dd>
+ *     <dt><span class="strong">void databaseServerAdded()</span></dt><dd>Logs when a server is added to the DB.</dd>
  *     <dt><span class="strong">void discordConnected()</span></dt><dd>Logs attempt at connecting to Discord.</dd>
  *     <dt><span class="strong">void discordUserAdded()</span></dt><dd>Logs when a Discord user is added to DB.</dd>
+ *     <dt><span class="strong">void discordServerAdded()</span></dt><dd>Logs when a Discord server is added to DB.</dd>
  *     <dt><span class="strong">String getPath()</span></dt><dd>Returns the path to the logs directory.</dd>
  *     <dt><span class="strong">String getExtension()</span></dt><dd>Returns the extension for all log files.</dd>
  *     <dt><span class="strong">String getTestLog</span></dt><dd>Returns the file name of the test log.</dd>
@@ -140,6 +142,23 @@ public class Logger implements LogADT {
     }
 
     /**
+     * This method logs a successful attempt at adding a server from any given service into the Idea Network database.
+     *
+     * @param serverID server identification string from any given service
+     * @param table name of table in database
+     * @throws IOException unable to write file and/or the appropriate directory does not exist
+     */
+    public void databaseServerAdded(String serverID, String table) throws IOException {
+        strDate = updateDate();
+        String DATABASE_LOG = getPath() + getDatabaseLog() + getExtension();  // dbms/database.txt
+
+        FileWriter db = new FileWriter(DATABASE_LOG, true);
+        BufferedWriter file = new BufferedWriter(db);
+        file.write("\n" + strDate + IDEA + "Added " + serverID + " to the " + table + " table!");
+        file.close();
+    }
+
+    /**
      * This method logs a first-time attempt at connecting with Discord. The attempt, itself, may or may not work
      * depending on how you've configured everything in the 'discord' package.
      *
@@ -166,7 +185,23 @@ public class Logger implements LogADT {
 
         FileWriter db = new FileWriter(DISCORD_LOG, true);
         BufferedWriter file = new BufferedWriter(db);
-        file.write("\n" + strDate + IDEA + "Added " + userID + " to the Idea Network!");
+        file.write("\n" + strDate + IDEA + "Added " + userID + " (user) to the Idea Network!");
+        file.close();
+    }
+
+    /**
+     * This method logs a successful attempt at when a Discord server is added into the Idea Network database.
+     *
+     * @param serverID Discord server identification string
+     * @throws IOException unable to write file and/or the appropriate directory does not exist
+     */
+    public void discordServerAdded(String serverID) throws IOException {
+        strDate = updateDate();
+        String DISCORD_LOG = getPath() + getDiscordLog() + getExtension();  // discord/discord.txt
+
+        FileWriter db = new FileWriter(DISCORD_LOG, true);
+        BufferedWriter file = new BufferedWriter(db);
+        file.write("\n" + strDate + IDEA + "Added " + serverID + " (server) to the Idea Network!");
         file.close();
     }
 
