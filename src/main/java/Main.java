@@ -13,11 +13,16 @@
  * ****************************************************************************************************************** */
 import ideaengine.database.DBMS;
 import ideaengine.discord.Bot;
+import ideaengine.logging.Logger;
 
 import javax.security.auth.login.LoginException;
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws LoginException {
+    public static void main(String[] args) throws IOException, LoginException {
+        // Establish that a logging system can be achieved on this operating system.
+        Logger log = new Logger();
+
         // Establish a connection to the Idea Network.
         final DBMS database = new DBMS();
 
