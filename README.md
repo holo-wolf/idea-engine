@@ -5,7 +5,7 @@ and tasks. The engine is developed using [Java SE 8](https://docs.oracle.com/jav
 
 ## Installation ##
 If you are interested in contributing to the development of this project, you must install the IDEA Engine locally. To
-do so, it is _recommended_ to use JetBrain's [IntelliJ IDEA](https://www.jetbrains.com/idea/) integrated development
+do so, it is _recommended_ to use [JetBrain's IntelliJ IDEA](https://www.jetbrains.com/idea/) integrated development
 environment although you are free to use any other IDE (or lack thereof) of your choosing. The following steps assume
 that you are using the aforementioned IDE.
 
