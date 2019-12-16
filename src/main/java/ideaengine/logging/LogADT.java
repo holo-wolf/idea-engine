@@ -23,6 +23,7 @@ package ideaengine.logging;
  *     <dt><span class="strong">LOG_PATH</span></dt><dd>Provides the path to the logs directory of this project.</dd>
  *     <dt><span class="strong">EXT</span></dt><dd>Provides the extension for any generated log file.</dd>
  *     <dt><span class="strong">testLog</span></dt><dd>Provides the name of the test log file.</dd>
+ *     <dt><span class="strong">databaseLog</span></dt><dd>Provides the name of the database log file.</dd>
  * </d>
  */
 public interface LogADT {
@@ -38,6 +39,7 @@ public interface LogADT {
 
     // The names of all log files (with special directories included) that should be generated.
     String testLog = "test_log";
+    String databaseLog = ("/dbms/database").replace("/", SEPARATOR);
 
     /**
      * This method returns the path to the logs directory.
@@ -59,4 +61,11 @@ public interface LogADT {
      * @return test log file name
      */
     String getTestLog();
+
+    /**
+     * This method returns the name for the database log file.
+     *
+     * @return database log file name
+     */
+    String getDatabaseLog();
 }
