@@ -285,10 +285,26 @@ public class Logger implements LogADT {
      * @param fileName file name
      */
     protected void createLog(String dir, String fileName) {
-        File directory = new File(dir);
+        if (fileName.equals(getTestLog() + getExtension())) {
+            File directory = new File(dir);
 
-        if (!directory.exists())
-            directory.mkdirs();
+            if (!directory.exists())
+                directory.mkdirs();
+        }  // for test_log.txt
+
+        if (fileName.equals(getDatabaseLog() + getExtension())) {
+            File directory = new File(dir + "dbms");
+
+            if (!directory.exists())
+                directory.mkdirs();
+        }  // for database.txt
+
+        if (fileName.equals(getDiscordLog() + getExtension())) {
+            File directory = new File(dir + "discord");
+
+            if (!directory.exists())
+                directory.mkdirs();
+        }  // for discord.txt
 
         Paths.get(dir + File.separatorChar + fileName);
     }
