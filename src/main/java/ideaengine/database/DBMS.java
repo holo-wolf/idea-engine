@@ -28,9 +28,12 @@ public class DBMS extends PostgreSQL {
      * The DBMS constructor initializes the database management system to determine if connecting to any given database
      * is achievable.
      *
+     * @param check boolean parameter to determine if database should ensure connectivity
      * @throws IOException logging system is not properly configured
      */
-    public DBMS() throws IOException {
-        initialization();
+    public DBMS(boolean check) throws IOException {
+        if (check) {
+            initialization();
+        }
     }
 }
