@@ -18,6 +18,7 @@ import ideaengine.logging.Logger;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -28,6 +29,7 @@ import java.sql.Statement;
  *
  * <dl>
  *     <dt><span class="strong">void initialization()</span></dt><dd>Checks if PostgreSQL credentials are valid.</dd>
+ *     <dt><span class="strong">void insertDiscordUser()</span></dt><dd>Inserts a Discord user into the DB.</dd>
  *     <dt><span class="strong">String getJDBC()</span></dt><dd>Returns the JDBC pathway from the interface class.</dd>
  *     <dt><span class="strong">String getRole()</span></dt><dd>Returns the ROLE from the interface class.</dd>
  *     <dt><span class="strong">String getPass()</span></dt><dd>Returns the PASS from the interface class.</dd>
@@ -37,6 +39,7 @@ abstract class PostgreSQL implements DatabaseADT {
     private Connection conn = null;
     private Statement stmt = null;
     private ResultSet rSet = null;
+    private PreparedStatement pStmt = null;
 
     /**
      * This method will perform a quick initialization to determine if connecting to a PostgreSQL database is
@@ -80,10 +83,45 @@ abstract class PostgreSQL implements DatabaseADT {
                     conn = null;
                 }
 
-                log.databaseFirstDisconnect();  // log the successful disconnection attempt
+                log.databaseDisconnect();  // log the successful disconnection attempt
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    /**
+     * This method inserts a Discord user into the Idea Network.
+     *
+     * @param user Discord user identification string from any given service
+     * @throws IOException logging system is not properly configured
+     */
+    public void insertDiscordUser(String user) throws IOException {
+        Logger log = new Logger(false);  // logging system
+
+        try {
+            conn = DriverManager.getConnection(getJDBC(), getRole(), getPass());
+            log.databaseConnected();
+
+            pStmt = conn.prepareStatement("INSERT INTO discord_users VALUES (?)");
+            pStmt.setString(1, user);
+            pStmt.executeUpdate();
+            log.databaseUserAdded(user, "discord_users");
+            log.discordUserAdded(user);
+
+            if (pStmt != null) {
+                pStmt.close();
+                pStmt = null;
+            }
+
+            if (conn != null) {
+                conn.close();
+                conn = null;
+
+                log.databaseDisconnect();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
