@@ -24,6 +24,7 @@ package ideaengine.logging;
  *     <dt><span class="strong">EXT</span></dt><dd>Provides the extension for any generated log file.</dd>
  *     <dt><span class="strong">testLog</span></dt><dd>Provides the name of the test log file.</dd>
  *     <dt><span class="strong">databaseLog</span></dt><dd>Provides the name of the database log file.</dd>
+ *     <dt><span class="strong">discordLog</span></dt><dd>Provides the name of the Discord log file.</dd>
  * </d>
  */
 public interface LogADT {
@@ -40,6 +41,7 @@ public interface LogADT {
     // The names of all log files (with special directories included) that should be generated.
     String testLog = "test_log";
     String databaseLog = ("/dbms/database").replace("/", SEPARATOR);
+    String discordLog = ("/discord/discord").replace("/", SEPARATOR);
 
     /**
      * This method returns the path to the logs directory.
@@ -68,4 +70,11 @@ public interface LogADT {
      * @return database log file name
      */
     String getDatabaseLog();
+
+    /**
+     * This method returns the name for the Discord log file.
+     *
+     * @return Discord log file name
+     */
+    String getDiscordLog();
 }
