@@ -13,6 +13,7 @@
  * ****************************************************************************************************************** */
 package ideaengine.discord;
 
+import java.io.IOException;
 import javax.security.auth.login.LoginException;
 
 /**
@@ -29,9 +30,10 @@ public class Bot extends Discord {
      * The Bot constructor initializes the Discord bot to connect with Discord via JDA and a secret Discord token (which
      * should be retrievable via an environment variable).
      *
+     * @throws IOException logging system is not properly configured
      * @throws LoginException secret Discord token is incorrect or invalid
      */
-    public Bot() throws LoginException {
+    public Bot() throws IOException, LoginException {
         setup();
     }
 }
