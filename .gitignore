@@ -16,3 +16,6 @@ out/
 
 # SQL files; not everything is open-source.
 *.sql
+
+# Log files; these will be generated anyway once you run the program.
+*.txt
