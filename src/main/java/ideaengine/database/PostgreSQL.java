@@ -13,6 +13,9 @@
  * ****************************************************************************************************************** */
 package ideaengine.database;
 
+import ideaengine.logging.Logger;
+
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -38,8 +41,12 @@ abstract class PostgreSQL implements DatabaseADT {
     /**
      * This method will perform a quick initialization to determine if connecting to a PostgreSQL database is
      * achievable.
+     *
+     * @throws IOException logging system is not properly configured
      */
-    public void initialization() {
+    public void initialization() throws IOException {
+        Logger log = new Logger(false);  // logging system
+
         try {
             // Open the connection via the JDBC pathway (e.g. jdbc:postgresql://host:port/database).
             conn = DriverManager.getConnection(getJDBC(), getRole(), getPass());
@@ -53,6 +60,8 @@ abstract class PostgreSQL implements DatabaseADT {
             // Output the result if everything was successful.
             if (rSet.next())
                 System.out.println(rSet.getString(1));
+
+            log.databaseFirstConnect();  // log the successful connection attempt
         }  catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -74,6 +83,8 @@ abstract class PostgreSQL implements DatabaseADT {
                     conn.close();
                     conn = null;
                 }
+
+                log.databaseFirstDisconnect();  // log the successful disconnection attempt
             } catch (SQLException e) {
                 e.printStackTrace();
             }
