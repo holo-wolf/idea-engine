@@ -13,6 +13,8 @@
  * ****************************************************************************************************************** */
 package ideaengine.database;
 
+import java.io.IOException;
+
 /**
  * The DatabaseADT interface provides an abstraction of the different types of variables and methods one may use to
  * connect a database. Utilizing environment variables for sensitive information is strongly recommended.
@@ -31,8 +33,10 @@ interface DatabaseADT {
 
     /**
      * This method will perform a quick initialization to determine if connecting to any given database is achievable.
+     *
+     * @throws IOException logging system is not properly configured
      */
-    void initialization();
+    void initialization() throws IOException;
 
     /**
      * This method returns the Java Database Connectivity pathway.
