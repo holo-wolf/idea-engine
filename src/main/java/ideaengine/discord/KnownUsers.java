@@ -21,11 +21,24 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-/* TODO: Check if a user's ID exists in a database. I'm thinking about maybe retrieving a list of all stored userID's
-*   and storing them in a data structure for quick access. If no match, then store the new userID into the database. */
+/**
+ * The KnownUsers class is responsible for handling all known Discord users (along with all known servers). Should an
+ * unknown user or server be encountered, IDEA will store relevant information about either into the Idea Network
+ * database.
+ *
+ * <dl>
+ *     <dt><span class="strong">users</span></dt><dd>A HashSet data structure containing all known user ID's.</dd>
+ *     <dt><span class="strong">servers</span></dt><dd>A HashSet data structure containing all known server ID's.</dd>
+ *     <dt><span class="strong">onGuildMessageReceived()</span></dt><dd>Handles messages sent via any server.</dd>
+ *     <dt><span class="strong">setupUsers()</span></dt><dd>Sets up the user list with known user ID's.</dd>
+ *     <dt><span class="strong">setupServers()</span></dt><dd>Sets up the server list with known user ID's.</dd>
+ *     <dt><span class="strong">isKnownUser()</span></dt><dd>Determines if a user's ID is known.</dd>
+ *     <dt><span class="strong">isKnownServer()</span></dt><dd>Determines if a server's ID is known.</dd>
+ * </dl>
+ */
 public class KnownUsers extends ListenerAdapter {
-    private HashSet<String> users = new HashSet<>();  // list of all users
-    private HashSet<String> servers = new HashSet<>();  // list of all servers
+    private static HashSet<String> users = new HashSet<>();  // list of all users
+    private static HashSet<String> servers = new HashSet<>();  // list of all servers
 
     /**
      * This method determines if a user in any given server is currently "known" (e.g. his or her information is stored
@@ -58,6 +71,34 @@ public class KnownUsers extends ListenerAdapter {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    /**
+     * This method pre-fills the user list with known Discord user ID's that have already been stored in the Idea
+     * Network.
+     */
+    protected static void setupUsers() {
+        try {
+            DBMS database = new DBMS(false);
+
+            database.initializeDiscordUsers(users);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method pre-fills the server list with known Discord server ID's that have already been stored in the Idea
+     * Network.
+     */
+    protected static void setupServers() {
+        try {
+            DBMS database = new DBMS(false);
+
+            database.initializeDiscordServers(servers);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
