@@ -34,6 +34,9 @@ public class Bot extends Discord {
      * @throws LoginException secret Discord token is incorrect or invalid
      */
     public Bot() throws IOException, LoginException {
+        KnownUsers.setupUsers();  // setup the user list
+        KnownUsers.setupServers();  // setup the server list
+
         setup();
     }
 }
