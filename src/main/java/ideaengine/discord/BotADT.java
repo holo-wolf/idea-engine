@@ -13,6 +13,7 @@
  * ****************************************************************************************************************** */
 package ideaengine.discord;
 
+import java.io.IOException;
 import javax.security.auth.login.LoginException;
 
 /**
@@ -29,9 +30,10 @@ interface BotADT {
     /**
      * This method initializes the Discord bot via JDA.
      *
+     * @throws IOException logging system is not properly configured
      * @throws LoginException secret Discord token is incorrect or invalid
      */
-    void setup() throws LoginException;
+    void setup() throws IOException, LoginException;
 
     /**
      * This method returns the secret Discord token for the IDEA Discord bot.
