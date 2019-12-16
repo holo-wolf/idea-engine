@@ -36,10 +36,12 @@ import java.util.Locale;
  *     <dt><span class="strong">Logger()</span></dt><dd>Constructor that outputs a simple test log file.</dd>
  *     <dt><span class="strong">void databaseFirstConnect()</span></dt><dd>Logs database's first connection.</dd>
  *     <dt><span class="strong">void databaseFirstDisconnect()</span></dt><dd>Logs database's first disconnection.</dd>
+ *     <dt><span class="strong">void discordConnected()</span></dt><dd>Logs attempt at connecting to Discord.</dd>
  *     <dt><span class="strong">String getPath()</span></dt><dd>Returns the path to the logs directory.</dd>
  *     <dt><span class="strong">String getExtension()</span></dt><dd>Returns the extension for all log files.</dd>
  *     <dt><span class="strong">String getTestLog</span></dt><dd>Returns the file name of the test log.</dd>
  *     <dt><span class="strong">String getDatabaseLog</span></dt><dd>Returns the file name of the database log.</dd>
+ *     <dt><span class="strong">String getDiscordLog</span></dt><dd>Returns the file name of the Discord log.</dd>
  *     <dt><span class="strong">String updateDate()</span></dt><dd>Updates the current date and time.</dd>
  * </d>
  */
@@ -103,6 +105,21 @@ public class Logger implements LogADT {
     }
 
     /**
+     * This method logs a first-time attempt at connecting with Discord. The attempt, itself, may or may not work
+     * depending on how you've configured everything in the 'discord' package.
+     *
+     * @throws IOException unable to write file and/or the appropriate directory does not exist
+     */
+    public void discordConnected() throws IOException {
+        strDate = updateDate();
+        String DISCORD_LOG = getPath() + getDiscordLog() + getExtension();  // discord/discord.txt
+
+        BufferedWriter file = new BufferedWriter(new FileWriter(DISCORD_LOG));
+        file.write(strDate + INFO + "Establishing a connection to Discord...");
+        file.close();
+    }
+
+    /**
      * This method returns the path to the logs directory.
      *
      * @return logs directory path
@@ -136,6 +153,15 @@ public class Logger implements LogADT {
      */
     public String getDatabaseLog() {
         return databaseLog;
+    }
+
+    /**
+     * This method returns the name for the Discord log file.
+     *
+     * @return Discord log file name
+     */
+    public String getDiscordLog() {
+        return discordLog;
     }
 
     /**
