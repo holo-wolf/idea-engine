@@ -57,10 +57,6 @@ abstract class PostgreSQL implements DatabaseADT {
             // Execute statement.
             rSet = stmt.executeQuery("SELECT version()");
 
-            // Output the result if everything was successful.
-            if (rSet.next())
-                System.out.println(rSet.getString(1));
-
             log.databaseFirstConnect();  // log the successful connection attempt
         }  catch (SQLException e) {
             e.printStackTrace();
