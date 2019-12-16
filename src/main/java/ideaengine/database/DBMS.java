@@ -13,6 +13,8 @@
  * ****************************************************************************************************************** */
 package ideaengine.database;
 
+import java.io.IOException;
+
 /**
  * The Database Management Systems (DBMS) class handles the connection to the Idea Network along with all other
  * embedded-SQL capabilities. You can extend the appropriate database management system as per your operating system.
@@ -25,8 +27,10 @@ public class DBMS extends PostgreSQL {
     /**
      * The DBMS constructor initializes the database management system to determine if connecting to any given database
      * is achievable.
+     *
+     * @throws IOException logging system is not properly configured
      */
-    public DBMS() {
+    public DBMS() throws IOException {
         initialization();
     }
 }
