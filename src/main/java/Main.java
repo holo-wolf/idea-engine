@@ -21,7 +21,7 @@ import javax.security.auth.login.LoginException;
 public class Main {
     public static void main(String[] args) throws IOException, LoginException {
         // Establish that a logging system can be achieved on this operating system.
-        Logger log = new Logger(true);
+        final Logger log = new Logger(true);
 
         // Establish a connection to the Idea Network.
         final DBMS database = new DBMS();
