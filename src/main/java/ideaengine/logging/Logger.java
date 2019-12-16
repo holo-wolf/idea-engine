@@ -14,8 +14,10 @@
 package ideaengine.logging;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -72,6 +74,10 @@ public class Logger implements LogADT {
         if (check) {
             String TEST_LOG = getPath() + getTestLog() + getExtension();  // test_log.txt
 
+            // fix -- see javadoc for details
+            // @holo-wolf (https://github.com/holo-wolf)
+            createLog(getPath(), getTestLog() + getExtension());
+
             BufferedWriter file = new BufferedWriter(new FileWriter(TEST_LOG));
             file.write(strDate + INFO + "Test log successfully generated.");
             file.close();
@@ -87,6 +93,10 @@ public class Logger implements LogADT {
     public void databaseFirstConnect() throws IOException {
         strDate = updateDate();
         String DATABASE_LOG = getPath() + getDatabaseLog() + getExtension();  // dbms/database.txt
+
+        // fix -- see javadoc for details
+        // @holo-wolf (https://github.com/holo-wolf)
+        createLog(getPath(), getDatabaseLog() + getExtension());
 
         BufferedWriter file = new BufferedWriter(new FileWriter(DATABASE_LOG));
         file.write(strDate + INFO + "Connected to the Idea Network.");
@@ -167,6 +177,10 @@ public class Logger implements LogADT {
     public void discordConnected() throws IOException {
         strDate = updateDate();
         String DISCORD_LOG = getPath() + getDiscordLog() + getExtension();  // discord/discord.txt
+
+        // fix -- see javadoc for details
+        // @holo-wolf (https://github.com/holo-wolf)
+        createLog(getPath(), getDiscordLog() + getExtension());
 
         BufferedWriter file = new BufferedWriter(new FileWriter(DISCORD_LOG));
         file.write(strDate + INFO + "Establishing a connection to Discord...");
@@ -260,5 +274,22 @@ public class Logger implements LogADT {
         dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
         return dateFormat.format(date);
+    }
+
+    /**
+     * This method checks to see if a log directory exists before creating a log file. This prevents contributors from
+     * having to manually create the directories themselves when contributing to this project.
+     * - @holo-wolf (https://github.com/holo-wolf)
+     *
+     * @param dir path directory
+     * @param fileName file name
+     */
+    protected void createLog(String dir, String fileName) {
+        File directory = new File(dir);
+
+        if (!directory.exists())
+            directory.mkdirs();
+
+        Paths.get(dir + File.separatorChar + fileName);
     }
 }
