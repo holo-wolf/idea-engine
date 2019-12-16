@@ -30,6 +30,7 @@ import java.sql.Statement;
  * <dl>
  *     <dt><span class="strong">void initialization()</span></dt><dd>Checks if PostgreSQL credentials are valid.</dd>
  *     <dt><span class="strong">void insertDiscordUser()</span></dt><dd>Inserts a Discord user into the DB.</dd>
+ *     <dt><span class="strong">void insertDiscordServer()</span></dt><dd>Inserts a Discord server into the DB.</dd>
  *     <dt><span class="strong">String getJDBC()</span></dt><dd>Returns the JDBC pathway from the interface class.</dd>
  *     <dt><span class="strong">String getRole()</span></dt><dd>Returns the ROLE from the interface class.</dd>
  *     <dt><span class="strong">String getPass()</span></dt><dd>Returns the PASS from the interface class.</dd>
@@ -93,7 +94,7 @@ abstract class PostgreSQL implements DatabaseADT {
     /**
      * This method inserts a Discord user into the Idea Network.
      *
-     * @param user Discord user identification string from any given service
+     * @param user Discord user identification string
      * @throws IOException logging system is not properly configured
      */
     public void insertDiscordUser(String user) throws IOException {
@@ -108,6 +109,41 @@ abstract class PostgreSQL implements DatabaseADT {
             pStmt.executeUpdate();
             log.databaseUserAdded(user, "discord_users");
             log.discordUserAdded(user);
+
+            if (pStmt != null) {
+                pStmt.close();
+                pStmt = null;
+            }
+
+            if (conn != null) {
+                conn.close();
+                conn = null;
+
+                log.databaseDisconnect();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method inserts a Discord server into the Idea Network.
+     *
+     * @param server Discord user identification string
+     * @throws IOException logging system is not properly configured
+     */
+    public void insertDiscordServer(String server) throws IOException {
+        Logger log = new Logger(false);  // logging system
+
+        try {
+            conn = DriverManager.getConnection(getJDBC(), getRole(), getPass());
+            log.databaseConnected();
+
+            pStmt = conn.prepareStatement("INSERT INTO discord_servers VALUES (?)");
+            pStmt.setString(1, server);
+            pStmt.executeUpdate();
+            log.databaseServerAdded(server, "discord_servers");
+            log.discordServerAdded(server);
 
             if (pStmt != null) {
                 pStmt.close();
