@@ -144,8 +144,8 @@ public class Logger implements LogADT {
      * @return updated date and time in string format
      */
     private String updateDate() {
-        Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        date = Calendar.getInstance().getTime();
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
         return dateFormat.format(date);
     }
