@@ -41,6 +41,7 @@ abstract class Discord implements BotADT {
         log.discordConnected();
 
         JDA client = new JDABuilder(getToken()).build();
+        client.addEventListener(new KnownUsers());  // always check to determine if a user is known or not
     }
 
     /**
