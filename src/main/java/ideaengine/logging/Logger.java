@@ -51,16 +51,20 @@ public class Logger implements LogADT {
 
     /**
      * The Logger constructor initializes the logging system and outputs a simple test log file to ensure that writing
-     * to files is achievable on this operating system.
+     * to files is achievable on this operating system. Set the parameter to FALSE if you do not want to run a test log
+     * file check.
      *
+     * @param check boolean parameter to determine if a test log should be generated
      * @throws IOException unable to write file and/or the appropriate directory does not exist
      */
-    public Logger() throws IOException {
-        String TEST_LOG = getPath() + getTestLog() + getExtension();  // test_log.txt
+    public Logger(boolean check) throws IOException {
+        if (check) {
+            String TEST_LOG = getPath() + getTestLog() + getExtension();  // test_log.txt
 
-        BufferedWriter file = new BufferedWriter(new FileWriter(TEST_LOG));
-        file.write(strDate + INFO + "Test log successfully generated.");
-        file.close();
+            BufferedWriter file = new BufferedWriter(new FileWriter(TEST_LOG));
+            file.write(strDate + INFO + "Test log successfully generated.");
+            file.close();
+        }
     }
 
     /**
