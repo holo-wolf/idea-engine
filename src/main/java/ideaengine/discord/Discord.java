@@ -13,6 +13,9 @@
  * ****************************************************************************************************************** */
 package ideaengine.discord;
 
+import ideaengine.logging.Logger;
+
+import java.io.IOException;
 import javax.security.auth.login.LoginException;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -30,9 +33,13 @@ abstract class Discord implements BotADT {
     /**
      * This method initializes the Discord bot via JDA.
      *
+     * @throws IOException logging system is not properly configured
      * @throws LoginException secret Discord token is incorrect or invalid
      */
-    public void setup() throws LoginException {
+    public void setup() throws IOException, LoginException {
+        Logger log = new Logger(false);  // logging system
+        log.discordConnected();
+
         JDA client = new JDABuilder(getToken()).build();
     }
 
