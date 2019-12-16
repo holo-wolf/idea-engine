@@ -15,8 +15,8 @@ import ideaengine.database.DBMS;
 import ideaengine.discord.Bot;
 import ideaengine.logging.Logger;
 
-import javax.security.auth.login.LoginException;
 import java.io.IOException;
+import javax.security.auth.login.LoginException;
 
 public class Main {
     public static void main(String[] args) throws IOException, LoginException {
