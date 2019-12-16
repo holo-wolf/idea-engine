@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashSet;
 
 /**
  * The PostgreSQL abstract class implements the DatabaseADT interface. This class loosely provides a working skeleton
@@ -29,6 +30,8 @@ import java.sql.Statement;
  *
  * <dl>
  *     <dt><span class="strong">void initialization()</span></dt><dd>Checks if PostgreSQL credentials are valid.</dd>
+ *     <dt><span class="strong">void initializeDiscordUsers()</span></dt><dd>Initializes known Discord users.</dd>
+ *     <dt><span class="strong">void initializeDiscordServers()</span></dt><dd>Initializes known Discord servers.</dd>
  *     <dt><span class="strong">void insertDiscordUser()</span></dt><dd>Inserts a Discord user into the DB.</dd>
  *     <dt><span class="strong">void insertDiscordServer()</span></dt><dd>Inserts a Discord server into the DB.</dd>
  *     <dt><span class="strong">String getJDBC()</span></dt><dd>Returns the JDBC pathway from the interface class.</dd>
@@ -88,6 +91,91 @@ abstract class PostgreSQL implements DatabaseADT {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    /**
+     * This method initializes the user list (via HashSet) by storing all known Discord user ID's from the Idea Network.
+     *
+     * @param userList empty HashSet data structure
+     * @throws IOException logging system is not properly configured
+     */
+    public void initializeDiscordUsers(HashSet<String> userList) throws IOException {
+        Logger log = new Logger(false);  // logging system
+
+        try {
+            conn = DriverManager.getConnection(getJDBC(), getRole(), getPass());
+            log.databaseConnected();
+
+            stmt = conn.createStatement();
+            rSet = stmt.executeQuery("SELECT user_id FROM discord_users");
+
+            while (rSet.next()) {
+                String user_id = rSet.getString("user_id");
+                userList.add(user_id);
+            }
+
+            if (stmt != null){
+                stmt.close();
+                stmt = null;
+            }
+
+            if (rSet != null) {
+                rSet.close();
+                rSet = null;
+            }
+
+            if (conn != null) {
+                conn.close();
+                conn = null;
+
+                log.databaseDisconnect();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method initializes the server list (via HashSet) by storing all known Discord server ID's from the Idea
+     * Network.
+     *
+     * @param serverList empty HashSet data structure
+     * @throws IOException logging system is not properly configured
+     */
+    public void initializeDiscordServers(HashSet<String> serverList) throws IOException {
+        Logger log = new Logger(false);  // logging system
+
+        try {
+            conn = DriverManager.getConnection(getJDBC(), getRole(), getPass());
+            log.databaseConnected();
+
+            stmt = conn.createStatement();
+            rSet = stmt.executeQuery("SELECT server_id FROM discord_servers");
+
+            while (rSet.next()) {
+                String server_id = rSet.getString("server_id");
+                serverList.add(server_id);
+            }
+
+            if (stmt != null){
+                stmt.close();
+                stmt = null;
+            }
+
+            if (rSet != null) {
+                rSet.close();
+                rSet = null;
+            }
+
+            if (conn != null) {
+                conn.close();
+                conn = null;
+
+                log.databaseDisconnect();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
