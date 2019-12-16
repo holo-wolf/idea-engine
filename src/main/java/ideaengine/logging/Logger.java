@@ -35,8 +35,11 @@ import java.util.Locale;
  *     <dt><span class="strong">IDEA</span></dt><dd>IDEA label is an event that is being handled by IDEA.</dd>
  *     <dt><span class="strong">Logger()</span></dt><dd>Constructor that outputs a simple test log file.</dd>
  *     <dt><span class="strong">void databaseFirstConnect()</span></dt><dd>Logs database's first connection.</dd>
- *     <dt><span class="strong">void databaseFirstDisconnect()</span></dt><dd>Logs database's first disconnection.</dd>
+ *     <dt><span class="strong">void databaseConnected()</span></dt><dd>Logs database's successful connection.</dd>
+ *     <dt><span class="strong">void databaseDisconnect()</span></dt><dd>Logs database's first disconnection.</dd>
+ *     <dt><span class="strong">void databaseUserAdded()</span></dt><dd>Logs when a user is added to the database.</dd>
  *     <dt><span class="strong">void discordConnected()</span></dt><dd>Logs attempt at connecting to Discord.</dd>
+ *     <dt><span class="strong">void discordUserAdded()</span></dt><dd>Logs when a Discord user is added to DB.</dd>
  *     <dt><span class="strong">String getPath()</span></dt><dd>Returns the path to the logs directory.</dd>
  *     <dt><span class="strong">String getExtension()</span></dt><dd>Returns the extension for all log files.</dd>
  *     <dt><span class="strong">String getTestLog</span></dt><dd>Returns the file name of the test log.</dd>
@@ -74,7 +77,7 @@ public class Logger implements LogADT {
     }
 
     /**
-     * This method logs a successful first-time connection attempt on the Idea Network (database that is powered by
+     * This method logs a successful first-time connection attempt to the Idea Network (database that is powered by
      * PostgreSQL 12).
      *
      * @throws IOException unable to write file and/or the appropriate directory does not exist
@@ -89,18 +92,50 @@ public class Logger implements LogADT {
     }
 
     /**
-     * This method logs a successful first-time disconnect attempt on the Idea Network (database that is powered by
+     * This method logs a successful first-time disconnect attempt from the Idea Network (database that is powered by
      * PostgreSQL 12).
      *
      * @throws IOException unable to write file and/or the appropriate directory does not exist
      */
-    public void databaseFirstDisconnect() throws IOException {
+    public void databaseDisconnect() throws IOException {
         strDate = updateDate();
         String DATABASE_LOG = getPath() + getDatabaseLog() + getExtension();  // dbms/database.txt
 
         FileWriter db = new FileWriter(DATABASE_LOG, true);
         BufferedWriter file = new BufferedWriter(db);
         file.write("\n" + strDate + INFO + "Disconnected from the Idea Network.");
+        file.close();
+    }
+
+    /**
+     * This method logs a successful connection to the Idea Network (database that is powered by PostgreSQL 12).
+     *
+     * @throws IOException unable to write file and/or the appropriate directory does not exist
+     */
+    public void databaseConnected() throws IOException {
+        strDate = updateDate();
+        String DATABASE_LOG = getPath() + getDatabaseLog() + getExtension();  // dbms/database.txt
+
+        FileWriter db = new FileWriter(DATABASE_LOG, true);
+        BufferedWriter file = new BufferedWriter(db);
+        file.write("\n" + strDate + INFO + "Connected to the Idea Network.");
+        file.close();
+    }
+
+    /**
+     * This method logs a successful attempt at adding a user from any given service into the Idea Network database.
+     *
+     * @param userID user identification string from any given service
+     * @param table name of table in database
+     * @throws IOException unable to write file and/or the appropriate directory does not exist
+     */
+    public void databaseUserAdded(String userID, String table) throws IOException {
+        strDate = updateDate();
+        String DATABASE_LOG = getPath() + getDatabaseLog() + getExtension();  // dbms/database.txt
+
+        FileWriter db = new FileWriter(DATABASE_LOG, true);
+        BufferedWriter file = new BufferedWriter(db);
+        file.write("\n" + strDate + IDEA + "Added " + userID + " to the " + table + " table!");
         file.close();
     }
 
@@ -116,6 +151,22 @@ public class Logger implements LogADT {
 
         BufferedWriter file = new BufferedWriter(new FileWriter(DISCORD_LOG));
         file.write(strDate + INFO + "Establishing a connection to Discord...");
+        file.close();
+    }
+
+    /**
+     * This method logs a successful attempt at when a Discord user is added into the Idea Network database.
+     *
+     * @param userID Discord user identification string
+     * @throws IOException unable to write file and/or the appropriate directory does not exist
+     */
+    public void discordUserAdded(String userID) throws IOException {
+        strDate = updateDate();
+        String DISCORD_LOG = getPath() + getDiscordLog() + getExtension();  // discord/discord.txt
+
+        FileWriter db = new FileWriter(DISCORD_LOG, true);
+        BufferedWriter file = new BufferedWriter(db);
+        file.write("\n" + strDate + IDEA + "Added " + userID + " to the Idea Network!");
         file.close();
     }
 
