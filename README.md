@@ -9,11 +9,11 @@ do so, it is _recommended_ to use JetBrain's [IntelliJ IDEA](https://www.jetbrai
 environment although you are free to use any other IDE (or lack thereof) of your choosing. The following steps assume
 that you are using the aforementioned IDE.
 
-### Cloning the repository and setting up directory structure... ###
+### Cloning repository and setting up directory structure... ###
 
-### Now if you'd like to set up an Idea Network environment... ###
+### Setting up IDEA Network environment... ###
 
-### Now if you'd like to set up a Discord bot...
+### Setting up Discord bot...
 
 ## License ##
 See [COPYING](COPYING) for licensing details.
